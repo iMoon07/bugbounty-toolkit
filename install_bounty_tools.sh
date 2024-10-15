@@ -119,6 +119,7 @@ go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install -v github.com/tomnomnom/httprobe@latest
 go install -v github.com/tomnomnom/anew@latest
 go install -v github.com/tomnomnom/unfurl@latest
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
 # Copying Go tools to /usr/local/bin
 print_message "Copying Go tools to /usr/local/bin..."
