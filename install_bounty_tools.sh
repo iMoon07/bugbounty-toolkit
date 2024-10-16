@@ -151,7 +151,8 @@ if ! is_installed dirsearch; then
     cd dirsearch || exit
     python3.11 -m pip install -r requirements.txt --break-system-packages
     python3.12 -m pip install -r requirements.txt --break-system-packages
-    sudo pip3 install .
+    sudo python3.11 setup.py install
+    sudo python3.12 setup.py install
 else
     print_message "Dirsearch is already installed."
 fi
