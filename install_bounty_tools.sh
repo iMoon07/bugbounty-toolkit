@@ -47,6 +47,9 @@ if [ "$OS" == "Linux" ]; then
         if ! is_installed "python$python_version"; then
             print_message "Installing Python $python_version..."
             sudo apt install "python$python_version" -y
+            sudo update-alternatives --install /usr/bin/python3.11 python3 /usr/bin/python3.13 1
+            yes '' | sudo update-alternatives --force --all
+            sudo update-alternatives --install /usr/bin/python3.11 python3 /usr/bin/python3.13 1
         else
             print_message "Python $python_version is already installed."
         fi
