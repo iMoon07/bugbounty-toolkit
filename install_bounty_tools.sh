@@ -208,6 +208,7 @@ if ! is_installed rustscan; then
     print_message "Installing RustScan..."
     wget https://github.com/RustScan/RustScan/releases/download/2.3.0/rustscan-2.3.0-x86_64-linux.zip
     unzip rustscan-2.3.0-x86_64-linux.zip
+    cd tmp || exit
     cd rustscan-2.3.0-x86_64-linux || exit
     sudo cp rustscan /usr/local/bin/
 else
