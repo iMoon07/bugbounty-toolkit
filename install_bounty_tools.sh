@@ -85,7 +85,7 @@ fi
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
 mkdir -p ~/BUG_BOUNTY_TOOLS
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing Golang
 if ! is_installed go; then
@@ -123,17 +123,17 @@ go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
 # Copying Go tools to /usr/local/bin
 print_message "Copying Go tools to /usr/local/bin..."
-cd ~/go/bin || exit
+cd ~/go/bin
 sudo cp * /usr/local/bin/
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing CRTSH
 if ! is_installed crtsh; then
     print_message "Installing CRTSH..."
     git clone https://github.com/YashGoti/crtsh.py.git
-    cd crtsh.py || exit
+    cd crtsh.py
     mv crtsh.py crtsh
     chmod +x crtsh
     sudo cp crtsh /usr/local/bin/
@@ -142,13 +142,13 @@ else
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing Dirsearch
 if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
     git clone https://github.com/maurosoria/dirsearch.git --depth 1
-    cd dirsearch || exit
+    cd dirsearch
     python3.11 -m pip install -r requirements.txt --break-system-packages
     python3.12 -m pip install -r requirements.txt --break-system-packages
     sudo python3.11 setup.py install
@@ -167,20 +167,20 @@ sudo pip3 install bhedak
 if ! is_installed paramspider; then
     print_message "Installing ParamsPider..."
     git clone https://github.com/devanshbatham/paramspider
-    cd paramspider || exit
+    cd paramspider
     sudo pip3 install .
 else
     print_message "ParamsPider is already installed."
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing URLDedupe
 if ! is_installed urldedupe; then
     print_message "Installing URLDedupe..."
     git clone https://github.com/ameenmaali/urldedupe.git
-    cd urldedupe || exit
+    cd urldedupe
     cmake CMakeLists.txt
     make
     sudo cp urldedupe /usr/local/bin 
@@ -189,34 +189,34 @@ else
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing LUcek
 if ! is_installed LUcek; then
     print_message "Installing LUcek..."
     git clone https://github.com/rootbakar/LUcek.git
-    cd LUcek || exit
+    cd LUcek
     bash requirement-linux.sh
 else
     print_message "LUcek is already installed."
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing RustScan
 if ! is_installed rustscan; then
     print_message "Installing RustScan..."
     wget https://github.com/RustScan/RustScan/releases/download/2.3.0/rustscan-2.3.0-x86_64-linux.zip
     unzip rustscan-2.3.0-x86_64-linux.zip
-    cd tmp || exit
-    cd rustscan-2.3.0-x86_64-linux || exit
+    cd tmp
+    cd rustscan-2.3.0-x86_64-linux
     sudo cp rustscan /usr/local/bin/
 else
     print_message "RustScan is already installed."
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
-cd ~/BUG_BOUNTY_TOOLS || exit
+cd ~/BUG_BOUNTY_TOOLS
 
 print_message "All tools have been successfully installed."
