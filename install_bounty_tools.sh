@@ -92,7 +92,6 @@ if ! is_installed go; then
     print_message "Installing Golang..."
     wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz -O go.tar.gz
     sudo tar -xzvf go.tar.gz -C /usr/local
-    sudo cp /usr/local/go/bin/go /usr/local/bin
     echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
     source ~/.profile
     go version
@@ -230,5 +229,8 @@ fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
+echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
+source ~/.profile
+go version
 
 print_message "All tools have been successfully installed."
