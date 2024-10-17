@@ -147,7 +147,7 @@ cd ~/BUG_BOUNTY_TOOLS
 # Installing Dirsearch
 if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
-    git clone https://github.com/maurosoria/dirsearch.git --depth 1
+    git clone https://github.com/maurosoria/dirsearch.git
     cd dirsearch
     sudo pip3 install -r requirements.txt
     sudo python3 setup.py install
