@@ -24,5 +24,5 @@ git clone https://github.com/rootbakar/bugbounty-toolkit
 cd bugbounty-toolkit
 ```
 ```bash
-bash install_bounty_tools.sh
+sudo bash install_bounty_tools.sh
 ```
