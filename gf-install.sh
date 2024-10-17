@@ -62,5 +62,3 @@ done
 # Interactive outro
 echo -e "${GREEN}All .json files have been successfully downloaded and saved to $GF_DIR.${NC}"
 echo -e "${GREEN}Thank you for using this script!${NC}"
-echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
-source ~/.profile
