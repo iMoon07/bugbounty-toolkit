@@ -45,8 +45,8 @@ cd bugbounty-toolkit
 sudo chmod +x install_bounty_tools.sh gf-install.sh
 ```
 ```bash
-sudo ./install_bounty_tools.sh
+./install_bounty_tools.sh
 ```
 ```bash
-sudo ./gf-install.sh
+./gf-install.sh
 ```
