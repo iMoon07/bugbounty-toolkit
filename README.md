@@ -26,3 +26,6 @@ cd bugbounty-toolkit
 ```bash
 sudo bash install_bounty_tools.sh
 ```
+```bash
+sudo bash gf-install.sh
+```
