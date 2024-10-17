@@ -1,45 +1,64 @@
 #!/bin/bash
 
-# Set the target directory for the gf-patterns
-mkdir -p "$HOME/.gf"
-TARGET_DIR="$HOME/.gf"
+# Colors for interactive text
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
-# Clone each repository and search for JSON patterns
-for repo in \
-    "https://github.com/tomnomnom/gfdecos" \
-    "https://github.com/r00tkie/grep-pattern" \
-    "https://github.com/mrofisr/gf-patterns" \
-    "https://github.com/robre/gf-patterns" \
-    "https://github.com/1ndianl33t/Gf-Patterns" \
-    "https://github.com/dwisiswant0/gf-secrets" \
-    "https://github.com/bp0lr/myGF_patterns" \
-    "https://github.com/cypher3107/GF-Patterns" \
-    "https://github.com/Matir/gf-patterns" \
-    "https://github.com/Isaac-The-Brave/GF-Patterns-Redux" \
-    "https://github.com/arthur4ires/gfPatterns" \
-    "https://github.com/R0X4R/Garud" \
-    "https://github.com/cypher3107/GF-Patterns" \
-    "https://github.com/seqrity/Allin1gf" \
-    "https://github.com/Jude-Paul/GF-Patterns-For-Dangerous-PHP-Functions" \
-    "https://github.com/NitinYadav00/gf-patterns" \
-    "https://github.com/scumdestroy/YouthCrew-GF-Patterns"
-do
-  # Check if the repository is public
-    if curl -s -I "$repo" | grep -q "HTTP/.* 200"; then
-        # Clone the repository with --depth 1 option to only download the latest commit
-        echo "Cloning $repo"
-        git clone --depth 1 "$repo"
+# Create directory to store files if it doesn't already exist
+GF_DIR="$HOME/.gf"
+mkdir -p $GF_DIR
 
-        # Search for JSON patterns recursively
-        find . -name "*.json" -exec mv {} "$TARGET_DIR" \; 2>/dev/null
-        find . -name "*.JSON" -exec mv {} "$TARGET_DIR" \; 2>/dev/null
-        find . -name "*.geojson" -exec mv {} "$TARGET_DIR" \; 2>/dev/null
-        find . -name "*.GeoJSON" -exec mv {} "$TARGET_DIR" \; 2>/dev/null
+# List of GitHub URLs
+repos=(
+  "https://github.com/scumdestroy/YouthCrew-GF-Patterns"
+  "https://github.com/NitinYadav00/gf-patterns"
+  "https://github.com/Jude-Paul/GF-Patterns-For-Dangerous-PHP-Functions"
+  "https://github.com/seqrity/Allin1gf"
+  "https://github.com/cypher3107/GF-Patterns"
+  "https://github.com/R0X4R/Garud"
+  "https://github.com/arthur4ires/gfPatterns"
+  "https://github.com/Matir/gf-patterns"
+  "https://github.com/cypher3107/GF-Patterns"
+  "https://github.com/bp0lr/myGF_patterns"
+  "https://github.com/dwisiswant0/gf-secrets"
+  "https://github.com/1ndianl33t/Gf-Patterns"
+  "https://github.com/robre/gf-patterns"
+  "https://github.com/mrofisr/gf-patterns"
+  "https://github.com/r00tkie/grep-pattern"
+)
 
-        # Remove the cloned repository
-        echo "Removing $repo"
-        rm -rf $(basename "$repo")
-    else
-        echo "$repo is no longer public or has been deleted, skipping."
-    fi
+# Function to download JSON files from GitHub repo
+download_json() {
+    repo_url=$1
+    echo -e "${YELLOW}Downloading JSON files from ${repo_url}...${NC}"
+
+    # Get the repo name from the URL
+    repo_name=$(basename $repo_url)
+
+    # Use git clone --depth=1 for faster cloning
+    git clone --depth=1 "$repo_url" "$GF_DIR/$repo_name" &> /dev/null
+
+    # Find .json files and move them to ~/.gf folder
+    find "$GF_DIR/$repo_name" -type f -name "*.json" -exec mv {} $GF_DIR \;
+
+    # Remove the cloned folder after downloading
+    rm -rf "$GF_DIR/$repo_name"
+
+    echo -e "${GREEN}Finished downloading .json files from ${repo_name}.${NC}"
+}
+
+# Interactive intro
+echo -e "${GREEN}Welcome to the GF Patterns downloader script!${NC}"
+echo -e "${YELLOW}This script will download all JSON files from several GitHub repositories and save them to $GF_DIR.${NC}"
+echo -e "${YELLOW}The process will begin shortly...${NC}"
+
+# Loop through all repos and download JSON files
+for repo in "${repos[@]}"; do
+    download_json "$repo"
 done
+
+# Interactive outro
+echo -e "${GREEN}All .json files have been successfully downloaded and saved to $GF_DIR.${NC}"
+echo -e "${GREEN}Thank you for using this script!${NC}"
