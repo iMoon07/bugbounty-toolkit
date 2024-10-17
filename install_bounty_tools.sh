@@ -229,8 +229,5 @@ fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
-echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
-source ~/.profile
-go version
 
 print_message "All tools have been successfully installed."
