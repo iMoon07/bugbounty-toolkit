@@ -50,11 +50,3 @@ chmod +x install_bounty_tools.sh gf-install.sh
 ```bash
 ./gf-install.sh
 ```
-
-## Setting Golang Path
-```bash
-echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
-```
-```bash
-source ~/.profile
-```
