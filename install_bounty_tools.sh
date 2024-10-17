@@ -129,6 +129,8 @@ cd ~/go/bin
 sudo cp * /usr/local/bin/
 cd /usr/local/go/bin
 sudo cp go /usr/local/bin/
+export GOROOT=/usr/local/go/
+export PATH=$PATH:$GOROOT/bin
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
