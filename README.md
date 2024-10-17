@@ -50,3 +50,9 @@ chmod +x install_bounty_tools.sh gf-install.sh
 ```bash
 ./gf-install.sh
 ```
+```bash
+echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
+```
+```bash
+source ~/.profile
+```
