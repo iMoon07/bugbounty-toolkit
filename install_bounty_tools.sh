@@ -164,6 +164,17 @@ sudo pip3 install dirhunt
 sudo pip3 install arjun
 sudo pip3 install bhedak
 
+# Returning to BUG_BOUNTY_TOOLS directory
+cd ~/BUG_BOUNTY_TOOLS
+
+# Download .gau.toml
+print_message "Downloading .gau.toml..."
+wget https://raw.githubusercontent.com/lc/gau/refs/heads/master/.gau.toml
+mv .gau.toml ~/
+
+# Returning to BUG_BOUNTY_TOOLS directory
+cd ~/BUG_BOUNTY_TOOLS
+
 # Installing ParamsPider
 if ! is_installed paramspider; then
     print_message "Installing ParamsPider..."
