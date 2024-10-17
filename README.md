@@ -42,14 +42,11 @@ git clone https://github.com/rootbakar/bugbounty-toolkit
 cd bugbounty-toolkit
 ```
 ```bash
-chmod +x install_bounty_tools.sh
+sudo chmod +x install_bounty_tools.sh gf-install.sh
 ```
 ```bash
-chmod +x gf-install.sh
+sudo ./install_bounty_tools.sh
 ```
 ```bash
-./install_bounty_tools.sh
-```
-```bash
-./gf-install.sh
+sudo ./gf-install.sh
 ```
