@@ -43,13 +43,10 @@ if [ "$OS" == "Linux" ]; then
     fi
 
     # Installing Python 3.11 and 3.12
-    for python_version in 3.11 3.12; do
+    for python_version in 3.11; do
         if ! is_installed "python$python_version"; then
             print_message "Installing Python $python_version..."
             sudo apt install "python$python_version" -y
-            sudo update-alternatives --install /usr/bin/python3.11 python3 /usr/bin/python3.13 1
-            yes '' | sudo update-alternatives --force --all
-            sudo update-alternatives --install /usr/bin/python3.11 python3 /usr/bin/python3.13 1
         else
             print_message "Python $python_version is already installed."
         fi
@@ -75,7 +72,7 @@ elif [ "$OS" == "macOS" ]; then
     fi
 
     # Installing Python 3.11 and 3.12
-    for python_version in 3.11 3.12; do
+    for python_version in 3.11; do
         if ! is_installed "python$python_version"; then
             print_message "Installing Python $python_version..."
             brew install "python@$python_version"
@@ -152,10 +149,8 @@ if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
     git clone https://github.com/maurosoria/dirsearch.git --depth 1
     cd dirsearch
-    python3.11 -m pip install -r requirements.txt --break-system-packages
-    python3.12 -m pip install -r requirements.txt --break-system-packages
-    sudo python3.11 setup.py install
-    sudo python3.12 setup.py install
+    sudo pip3 install -r requirements.txt
+    sudo python3 setup.py install
 else
     print_message "Dirsearch is already installed."
 fi
