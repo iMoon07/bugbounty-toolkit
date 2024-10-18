@@ -86,6 +86,8 @@ fi
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
 mkdir -p ~/BUG_BOUNTY_TOOLS
 cd ~/BUG_BOUNTY_TOOLS
+sudo rm -f /usr/bin/httpx
+sudo rm -f /usr/local/bin/httpx
 
 # Installing Golang
 if ! is_installed go; then
@@ -99,7 +101,10 @@ fi
 # Set GOROOT and update PATH
 print_message "Set GOROOT and update PATH..."
 cd /usr/local/go/bin
+sudo rm -f /usr/bin/go
+sudo rm -f /usr/local/bin/go
 sudo cp go /usr/local/bin/
+sudo cp go /usr/bin/
 
 # Set GOROOT and update PATH
 export GOROOT=/usr/local/go
@@ -139,6 +144,7 @@ go install -v github.com/takshal/freq@latest
 print_message "Copying Go tools to /usr/local/bin..."
 cd ~/go/bin
 sudo cp * /usr/local/bin/
+sudo cp * /usr/bin/
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
@@ -151,6 +157,7 @@ if ! is_installed crtsh; then
     mv crtsh.py crtsh
     chmod +x crtsh
     sudo cp crtsh /usr/local/bin/
+    sudo cp crtsh /usr/bin/
 else
     print_message "CRTSH is already installed."
 fi
@@ -206,7 +213,8 @@ if ! is_installed urldedupe; then
     cd urldedupe
     cmake CMakeLists.txt
     make
-    sudo cp urldedupe /usr/local/bin 
+    sudo cp urldedupe /usr/local/bin
+    sudo cp urldedupe /usr/bin
 else
     print_message "URLDedupe is already installed."
 fi
@@ -235,6 +243,7 @@ if ! is_installed rustscan; then
     cd tmp
     cd rustscan-2.3.0-x86_64-linux
     sudo cp rustscan /usr/local/bin/
+    sudo cp rustscan /usr/bin/
 else
     print_message "RustScan is already installed."
 fi
