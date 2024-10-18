@@ -87,6 +87,8 @@ sudo rm -f /usr/bin/ffuf
 sudo rm -f /usr/local/bin/ffuf
 sudo rm -f /usr/bin/httpx 
 sudo rm -f /usr/local/bin/httpx
+sudo apt remove httpx -y
+sudo apt remove ffuf -y
 
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
