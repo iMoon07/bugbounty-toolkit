@@ -92,12 +92,24 @@ if ! is_installed go; then
     print_message "Installing Golang..."
     wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz -O go.tar.gz
     sudo tar -xzvf go.tar.gz -C /usr/local
-    echo "export PATH=\$HOME/go/bin:/usr/local/go/bin:\$PATH" >> ~/.profile
-    source ~/.profile
-    go version
 else
     print_message "Golang is already installed."
 fi
+
+# Set GOROOT and update PATH
+print_message "Set GOROOT and update PATH..."
+cd /usr/local/go/bin
+sudo cp go /usr/local/bin/
+
+# Set GOROOT and update PATH
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+
+# Make these changes persistent by adding to profile or bashrc
+echo "export GOROOT=/usr/local/go" >> ~/.profile
+echo "export PATH=\$PATH:\$GOROOT/bin" >> ~/.profile
+source ~/.profile
+go version
 
 # Installing Golang tools
 print_message "Installing Golang tools..."
@@ -127,10 +139,6 @@ go install -v github.com/takshal/freq@latest
 print_message "Copying Go tools to /usr/local/bin..."
 cd ~/go/bin
 sudo cp * /usr/local/bin/
-cd /usr/local/go/bin
-sudo cp go /usr/local/bin/
-export GOROOT=/usr/local/go/
-export PATH=$PATH:$GOROOT/bin
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
