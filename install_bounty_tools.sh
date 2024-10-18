@@ -82,6 +82,12 @@ elif [ "$OS" == "macOS" ]; then
     done
 fi
 
+# Deleting httpx and ffuf
+sudo rm -f /usr/bin/ffuf 
+sudo rm -f /usr/local/bin/ffuf
+sudo rm -f /usr/bin/httpx 
+sudo rm -f /usr/local/bin/httpx
+
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
 mkdir -p ~/BUG_BOUNTY_TOOLS
@@ -137,11 +143,6 @@ go install -v github.com/tomnomnom/unfurl@latest
 go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/takshal/freq@latest
-
-# Deleting httpx and ffuf
-print_message "Deleting httpx and ffuf..."
-sudo rm -f /usr/bin/ffuf /usr/local/bin/ffuf
-sudo rm -fR /usr/bin/httpx /usr/local/bin/httpx
 
 # Copying Go tools to /usr/local/bin
 print_message "Copying Go tools to /usr/local/bin..."
