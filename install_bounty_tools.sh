@@ -88,6 +88,8 @@ mkdir -p ~/BUG_BOUNTY_TOOLS
 cd ~/BUG_BOUNTY_TOOLS
 sudo rm -f /usr/bin/httpx
 sudo rm -f /usr/local/bin/httpx
+sudo rm -f /usr/bin/ffuf
+sudo rm -f /usr/local/bin/ffuf
 
 # Installing Golang
 if ! is_installed go; then
