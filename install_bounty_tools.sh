@@ -141,6 +141,8 @@ go install -v github.com/tomnomnom/unfurl@latest
 go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/takshal/freq@latest
+go install -v github.com/Emoe/kxss@latest
+go install -v github.com/rix4uni/xsschecker@latest
 
 # Copying Go tools to /usr/local/bin
 print_message "Copying Go tools to /usr/local/bin..."
