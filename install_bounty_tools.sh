@@ -201,9 +201,9 @@ fi
 
 # Installing Dirhunt, Arjun, and Bhedak
 print_message "Installing Dirhunt, Arjun, and Bhedak..."
-sudo pip3 install dirhunt
-sudo pip3 install arjun
-sudo pip3 install bhedak
+sudo pip3 install dirhunt --break-system-packages
+sudo pip3 install arjun --break-system-packages
+sudo pip3 install bhedak --break-system-packages
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
