@@ -10,6 +10,12 @@ function print_message {
 # Function to check if a command is installed
 function is_installed {
     command -v "$1" >/dev/null 2>&1
+
+    if [ -f "/usr/bin/$1" ] || [ -f "/usr/local/bin/$1" ]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 # Detecting the operating system
@@ -84,7 +90,20 @@ fi
 
 # Deleting httpx and ffuf
 sudo apt remove ffuf -y
-sudo rm -f /usr/bin/httpx 
+
+# Daftar command yang akan diperiksa
+commands=("httpx" "subfinder" "nuclei" "ffuf")
+
+# Loop untuk setiap command
+for cmd in "${commands[@]}"; do
+    if is_installed "$cmd"; then
+        print_message "$cmd ditemukan, akan dihapus..."
+        sudo rm -f "/usr/bin/$cmd" "/usr/local/bin/$cmd"
+        print_message "$cmd berhasil dihapus."
+    else
+        print_message "$cmd tidak ditemukan, tidak ada yang perlu dilakukan."
+    fi
+done
 
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
