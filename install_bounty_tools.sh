@@ -221,7 +221,7 @@ if ! is_installed paramspider; then
     print_message "Installing ParamsPider..."
     git clone https://github.com/devanshbatham/paramspider
     cd paramspider
-    sudo pip3 install .
+    sudo pip3 install . --break-system-packages
 else
     print_message "ParamsPider is already installed."
 fi
