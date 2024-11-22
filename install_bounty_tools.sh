@@ -18,74 +18,38 @@ function is_installed {
     fi
 }
 
-# Detecting the operating system
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    OS="Linux"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="macOS"
-else
-    echo "Unsupported OS: $OSTYPE"
+# Pastikan hanya dijalankan di Linux
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+    echo "Script ini hanya untuk Linux. Sistem operasi Anda tidak didukung."
     exit 1
 fi
 
-# Updating package list and installing required tools based on OS
-if [ "$OS" == "Linux" ]; then
-    print_message "Updating package list for Linux..."
-    sudo apt update -y
+# Memperbarui daftar paket
+print_message "Memperbarui daftar paket untuk Linux..."
+sudo apt update -y
 
-    # Installing CMake and libpcap
-    if ! is_installed cmake; then
-        print_message "Installing CMake..."
-        sudo apt install cmake -y
-    else
-        print_message "CMake is already installed."
-    fi
+# Menginstal CMake dan libpcap
+if ! is_installed cmake; then
+    print_message "Menginstal CMake..."
+    sudo apt install cmake -y
+else
+    print_message "CMake sudah terinstal."
+fi
 
-    if ! is_installed libpcap-dev; then
-        print_message "Installing libpcap..."
-        sudo apt install -y libpcap-dev
-    else
-        print_message "libpcap is already installed."
-    fi
+if ! is_installed libpcap-dev; then
+    print_message "Menginstal libpcap..."
+    sudo apt install -y libpcap-dev
+else
+    print_message "libpcap sudah terinstal."
+fi
 
-    # Installing Python 3.11 and 3.12
-    for python_version in 3.11; do
-        if ! is_installed "python$python_version"; then
-            print_message "Installing Python $python_version..."
-            sudo apt install "python$python_version" -y
-        else
-            print_message "Python $python_version is already installed."
-        fi
-    done
-
-elif [ "$OS" == "macOS" ]; then
-    print_message "Updating package list for macOS..."
-    brew update
-
-    # Installing CMake and libpcap
-    if ! is_installed cmake; then
-        print_message "Installing CMake..."
-        brew install cmake
-    else
-        print_message "CMake is already installed."
-    fi
-
-    if ! is_installed libpcap; then
-        print_message "Installing libpcap..."
-        brew install libpcap
-    else
-        print_message "libpcap is already installed."
-    fi
-
-    # Installing Python 3.11 and 3.12
-    for python_version in 3.11; do
-        if ! is_installed "python$python_version"; then
-            print_message "Installing Python $python_version..."
-            brew install "python@$python_version"
-        else
-            print_message "Python $python_version is already installed."
-        fi
-    done
+# Menginstal Python 3.11
+python_version=3.11
+if ! is_installed "python$python_version"; then
+    print_message "Menginstal Python $python_version..."
+    sudo apt install "python$python_version" -y
+else
+    print_message "Python $python_version sudah terinstal."
 fi
 
 # Deleting httpx and ffuf
