@@ -24,6 +24,19 @@ if [[ "$OSTYPE" != "linux-gnu"* ]]; then
     exit 1
 fi
 
+# Deleting command using apt
+print_message "Remove cmake, libpcap-dev..."
+sudo apt remove cmake -y
+sudo apt remove -y libpcap-dev
+sudo apt remove ffuf -y
+sudo apt remove golang* -y
+sudo python3.11 -m pip uninstall dirsearch --break-system-packages 
+sudo python3.11 -m pip uninstall bhedak --break-system-packages
+cd /usr/local/bin
+sudo rm -f subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace httpx httprobe anew unfurl nuclei subzy freq kxss xsschecker dirsearch arjun dirhunt urldedupe lucek rustscan
+sudo apt autoremove -y
+cd ~/
+
 # Memperbarui daftar paket
 print_message "Memperbarui daftar paket untuk Linux..."
 sudo apt update -y
@@ -38,7 +51,7 @@ fi
 
 if ! is_installed libpcap-dev; then
     print_message "Menginstal libpcap..."
-    sudo apt install -y libpcap-dev
+    sudo apt install libpcap-dev -y
 else
     print_message "libpcap sudah terinstal."
 fi
@@ -52,23 +65,16 @@ else
     print_message "Python $python_version sudah terinstal."
 fi
 
-# Deleting httpx and ffuf
-sudo apt remove ffuf -y
-
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
 mkdir -p ~/BUG_BOUNTY_TOOLS
 cd ~/BUG_BOUNTY_TOOLS
 
-# Set GOROOT and update PATH
-print_message "Set GOROOT and update PATH..."
-sudo rm -Rf /usr/local/go/bin
-sudo rm -Rf /usr/local/bin/go
-
 # Installing Golang
 if ! is_installed go; then
     print_message "Installing Golang..."
     sudo apt install golang-1.23 golang-go -y
+    go clean -cache -modcache -i -r
 else
     print_message "Golang is already installed."
 fi
@@ -115,7 +121,6 @@ if ! is_installed crtsh; then
     mv crtsh.py crtsh
     chmod +x crtsh
     sudo cp crtsh /usr/local/bin/
-    sudo cp crtsh /usr/bin/
 else
     print_message "CRTSH is already installed."
 fi
@@ -144,6 +149,9 @@ print_message "Installing Dirhunt..."
 git clone https://github.com/Nekmo/dirhunt.git
 cd dirhunt
 sudo python3.11 -m pip install . --break-system-packages
+
+# Installing Bhedak
+sudo python3.11 -m pip install bhedak --break-system-packages
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
@@ -205,6 +213,7 @@ if ! is_installed rustscan; then
     cd tmp
     cd rustscan-2.3.0-x86_64-linux
     sudo cp rustscan /usr/local/bin/
+    sudo rm -f rustscan-2.3.0-x86_64-linux.zip
 else
     print_message "RustScan is already installed."
 fi
