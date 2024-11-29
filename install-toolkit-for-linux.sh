@@ -33,7 +33,7 @@ sudo apt remove golang* -y
 sudo python3.11 -m pip uninstall dirsearch --break-system-packages -y
 sudo python3.11 -m pip uninstall bhedak --break-system-packages -y
 cd /usr/local/bin
-sudo rm -f subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace httpx httprobe anew unfurl nuclei subzy freq kxss xsschecker dirsearch arjun dirhunt urldedupe lucek rustscan
+sudo rm -f subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace httpx httprobe anew unfurl nuclei subzy freq kxss xsschecker dirsearch arjun dirhunt urldedupe lucek rustscan crtsh 
 sudo apt autoremove -y
 cd ~/
 
