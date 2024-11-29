@@ -221,4 +221,4 @@ fi
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
 
-print_message "All tools have been successfully installed."
+print_message "All bug bounty toolkit have been successfully installed."
