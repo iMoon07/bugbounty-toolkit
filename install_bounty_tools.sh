@@ -44,10 +44,10 @@ else
 fi
 
 # Menginstal Python 3.11
-python_version=3.11
 if ! is_installed "python$python_version"; then
     print_message "Menginstal Python $python_version..."
-    sudo apt install "python$python_version" -y
+    sudo apt install python3.11 -y
+    python3.11 -m pip install --upgrade pip
 else
     print_message "Python $python_version sudah terinstal."
 fi
@@ -55,51 +55,23 @@ fi
 # Deleting httpx and ffuf
 sudo apt remove ffuf -y
 
-# Daftar command yang akan diperiksa
-commands=("httpx" "subfinder" "nuclei" "ffuf")
-
-# Loop untuk setiap command
-for cmd in "${commands[@]}"; do
-    if is_installed "$cmd"; then
-        print_message "$cmd ditemukan, akan dihapus..."
-        sudo rm -f "/usr/bin/$cmd" "/usr/local/bin/$cmd"
-        print_message "$cmd berhasil dihapus."
-    else
-        print_message "$cmd tidak ditemukan, tidak ada yang perlu dilakukan."
-    fi
-done
-
 # Creating folder for bug bounty tools
 print_message "Creating BUG_BOUNTY_TOOLS directory..."
 mkdir -p ~/BUG_BOUNTY_TOOLS
 cd ~/BUG_BOUNTY_TOOLS
 
+# Set GOROOT and update PATH
+print_message "Set GOROOT and update PATH..."
+sudo rm -Rf /usr/local/go/bin
+sudo rm -Rf /usr/local/bin/go
+
 # Installing Golang
 if ! is_installed go; then
     print_message "Installing Golang..."
-    wget https://go.dev/dl/go1.23.1.linux-amd64.tar.gz -O go.tar.gz
-    sudo tar -xzvf go.tar.gz -C /usr/local
+    sudo apt install golang-1.23 golang-go -y
 else
     print_message "Golang is already installed."
 fi
-
-# Set GOROOT and update PATH
-print_message "Set GOROOT and update PATH..."
-cd /usr/local/go/bin
-sudo rm -f /usr/bin/go
-sudo rm -f /usr/local/bin/go
-sudo cp go /usr/local/bin/
-sudo cp go /usr/bin/
-
-# Set GOROOT and update PATH
-export GOROOT=/usr/local/go
-export PATH=$PATH:$GOROOT/bin
-
-# Make these changes persistent by adding to profile or bashrc
-echo "export GOROOT=/usr/local/go" >> ~/.profile
-echo "export PATH=\$PATH:\$GOROOT/bin" >> ~/.profile
-source ~/.profile
-go version
 
 # Installing Golang tools
 print_message "Installing Golang tools..."
@@ -131,7 +103,6 @@ go install -v github.com/rix4uni/xsschecker@latest
 print_message "Copying Go tools to /usr/local/bin..."
 cd ~/go/bin
 sudo cp * /usr/local/bin/
-sudo cp * /usr/bin/
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
@@ -157,17 +128,22 @@ if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
     git clone https://github.com/maurosoria/dirsearch.git
     cd dirsearch
-    sudo pip3 install -r requirements.txt
-    sudo python3 setup.py install
+    sudo python3.11 -m pip install . --break-system-packages
 else
     print_message "Dirsearch is already installed."
 fi
 
-# Installing Dirhunt, Arjun, and Bhedak
-print_message "Installing Dirhunt, Arjun, and Bhedak..."
-sudo pip3 install dirhunt --break-system-packages
-sudo pip3 install arjun --break-system-packages
-sudo pip3 install bhedak --break-system-packages
+# Installing Arjun
+print_message "Installing Arjun..."
+git clone https://github.com/s0md3v/Arjun.git
+cd Arjun
+sudo python3.11 -m pip install . --break-system-packages
+
+# Installing Dirhunt
+print_message "Installing Dirhunt..."
+git clone https://github.com/Nekmo/dirhunt.git
+cd dirhunt
+sudo python3.11 -m pip install . --break-system-packages
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
@@ -185,7 +161,7 @@ if ! is_installed paramspider; then
     print_message "Installing ParamsPider..."
     git clone https://github.com/devanshbatham/paramspider
     cd paramspider
-    sudo pip3 install . --break-system-packages
+    sudo python3.11 -m pip install . --break-system-packages
 else
     print_message "ParamsPider is already installed."
 fi
@@ -201,7 +177,6 @@ if ! is_installed urldedupe; then
     cmake CMakeLists.txt
     make
     sudo cp urldedupe /usr/local/bin
-    sudo cp urldedupe /usr/bin
 else
     print_message "URLDedupe is already installed."
 fi
@@ -214,7 +189,7 @@ if ! is_installed LUcek; then
     print_message "Installing LUcek..."
     git clone https://github.com/rootbakar/LUcek.git
     cd LUcek
-    bash requirement-linux.sh
+    bash requirement-mac.sh
 else
     print_message "LUcek is already installed."
 fi
@@ -230,7 +205,6 @@ if ! is_installed rustscan; then
     cd tmp
     cd rustscan-2.3.0-x86_64-linux
     sudo cp rustscan /usr/local/bin/
-    sudo cp rustscan /usr/bin/
 else
     print_message "RustScan is already installed."
 fi
