@@ -74,7 +74,7 @@ cd ~/BUG_BOUNTY_TOOLS
 if ! is_installed go; then
     print_message "Installing Golang..."
     sudo apt install golang-1.23 golang-go -y
-    go clean -cache -modcache -i -r
+    go clean -cache -modcache
 else
     print_message "Golang is already installed."
 fi
