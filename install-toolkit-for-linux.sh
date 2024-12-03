@@ -138,17 +138,26 @@ else
     print_message "Dirsearch is already installed."
 fi
 
+# Returning to BUG_BOUNTY_TOOLS directory
+cd ~/BUG_BOUNTY_TOOLS
+
 # Installing Arjun
 print_message "Installing Arjun..."
 git clone https://github.com/s0md3v/Arjun.git
 cd Arjun
 sudo python3.11 -m pip install . --break-system-packages
 
+# Returning to BUG_BOUNTY_TOOLS directory
+cd ~/BUG_BOUNTY_TOOLS
+
 # Installing Dirhunt
 print_message "Installing Dirhunt..."
 git clone https://github.com/Nekmo/dirhunt.git
 cd dirhunt
 sudo python3.11 -m pip install . --break-system-packages
+
+# Returning to BUG_BOUNTY_TOOLS directory
+cd ~/BUG_BOUNTY_TOOLS
 
 # Installing Bhedak
 sudo python3.11 -m pip install bhedak --break-system-packages
