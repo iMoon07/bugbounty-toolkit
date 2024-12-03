@@ -133,7 +133,8 @@ if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
     git clone https://github.com/maurosoria/dirsearch.git
     cd dirsearch
-    sudo python3.11 -m pip install . --break-system-packages
+    sudo python3.11 -m pip3 install -r requirements.txt
+    sudo python3.11 setup.py install
 else
     print_message "Dirsearch is already installed."
 fi
