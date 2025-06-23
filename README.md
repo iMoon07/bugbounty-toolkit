@@ -50,3 +50,6 @@ chmod +x install-toolkit-for-linux.sh gf-install.sh
 ```bash
 ./gf-install.sh
 ```
+```bash
+./update.sh
+```
