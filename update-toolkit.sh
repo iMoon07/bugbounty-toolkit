@@ -207,6 +207,7 @@ is_installed dnsx              && _run "dnsx"              "go install -v github
 is_installed tlsx              && _run "tlsx"              "go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest"                       || _skip_not_installed "tlsx"
 is_installed cdncheck          && _run "cdncheck"          "go install -v github.com/projectdiscovery/cdncheck/cmd/cdncheck@latest"               || _skip_not_installed "cdncheck"
 is_installed puredns           && _run "puredns"           "go install -v github.com/d3mondev/puredns/v2@latest"                                  || _skip_not_installed "puredns"
+is_installed brutespray        && _run "brutespray"        "go install -v github.com/x90skysn3k/brutespray@latest"                                || _skip_not_installed "brutespray"
 _run "sync go→/usr/local/bin" "sudo cp ~/go/bin/* /usr/local/bin/ 2>/dev/null || true"
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -246,7 +247,7 @@ fi
 cd ~/BUG_BOUNTY_TOOLS
 _git_update "secretfinder" "SecretFinder" "pip3 install -r requirements.txt --break-system-packages 2>/dev/null || true" "https://github.com/m4ll0k/SecretFinder.git"
 _git_update "paramspider"  "paramspider"  "pip3 install -r requirements.txt --break-system-packages 2>/dev/null || true" "https://github.com/devanshbatham/paramspider"
-_git_update "waymore"      "waymore"      "pip3 install -r requirements.txt --break-system-packages"               "https://github.com/xnl-h4ck3r/waymore.git"
+_git_update "waymore"      "waymore"      "python3 -m pip install . --break-system-packages"               "https://github.com/xnl-h4ck3r/waymore.git"
 
 # cmseek — git pull + re-create bash wrapper with PYTHONPATH
 if ! is_installed cmseek; then
@@ -258,7 +259,7 @@ else
 fi
 cd ~/BUG_BOUNTY_TOOLS
 _git_update "lucek"        "LUcek"        "pip3 install -r requirements.txt --break-system-packages 2>/dev/null || true" "https://github.com/rootbakar/LUcek.git"
-_git_update "ghauri"       "ghauri"       "pip3 install -r requirements.txt --break-system-packages"               "https://github.com/r0oth3x49/ghauri.git"
+_git_update "ghauri"       "ghauri"       "python3 -m pip install . --break-system-packages"               "https://github.com/r0oth3x49/ghauri.git"
 
 # crtsh — git pull or re-clone if dir missing
 if is_installed crtsh; then
@@ -275,12 +276,38 @@ fi
 # gau config (always refresh)
 _run "gau.toml config" "wget -q https://raw.githubusercontent.com/lc/gau/refs/heads/master/.gau.toml && mv .gau.toml ~/"
 
+# sqlmap — git pull + re-create wrapper
+if ! is_installed sqlmap; then
+    _skip_not_installed "sqlmap"
+elif [ -d "$HOME/BUG_BOUNTY_TOOLS/sqlmap/.git" ]; then
+    _run "sqlmap" "cd ~/BUG_BOUNTY_TOOLS/sqlmap && git pull"
+else
+    _run "sqlmap (re-clone)" "rm -rf ~/BUG_BOUNTY_TOOLS/sqlmap && git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git ~/BUG_BOUNTY_TOOLS/sqlmap && printf '#!/usr/bin/env bash\nexec python3 \"\$HOME/BUG_BOUNTY_TOOLS/sqlmap/sqlmap.py\" \"\$@\"\n' | sudo tee /usr/local/bin/sqlmap > /dev/null && sudo chmod +x /usr/local/bin/sqlmap"
+fi
+cd ~/BUG_BOUNTY_TOOLS
+
+# commix — git pull + re-create wrapper
+if ! is_installed commix; then
+    _skip_not_installed "commix"
+elif [ -d "$HOME/BUG_BOUNTY_TOOLS/commix/.git" ]; then
+    _run "commix" "cd ~/BUG_BOUNTY_TOOLS/commix && git pull"
+else
+    _run "commix (re-clone)" "rm -rf ~/BUG_BOUNTY_TOOLS/commix && git clone --depth 1 https://github.com/commixproject/commix.git ~/BUG_BOUNTY_TOOLS/commix && printf '#!/usr/bin/env bash\nexec python3 \"\$HOME/BUG_BOUNTY_TOOLS/commix/commix.py\" \"\$@\"\n' | sudo tee /usr/local/bin/commix > /dev/null && sudo chmod +x /usr/local/bin/commix"
+fi
+cd ~/BUG_BOUNTY_TOOLS
+
 # ─────────────────────────────────────────────────────────────────────────────
-_hdr "APT / BINARY TOOLS"
-is_installed sqlmap     && _run "sqlmap"     "sudo apt install --only-upgrade sqlmap -y"     || _skip_not_installed "sqlmap"
-is_installed commix     && _run "commix"     "sudo apt install --only-upgrade commix -y"     || _skip_not_installed "commix"
-is_installed medusa     && _run "medusa"     "sudo apt install --only-upgrade medusa -y"     || _skip_not_installed "medusa"
-is_installed brutespray && _run "brutespray" "sudo apt install --only-upgrade brutespray -y" || _skip_not_installed "brutespray"
+_hdr "BINARY TOOLS"
+
+# medusa - rebuild from source
+if ! is_installed medusa; then
+    _skip_not_installed "medusa"
+elif [ -d "$HOME/BUG_BOUNTY_TOOLS/medusa/.git" ]; then
+    _run "medusa" "cd ~/BUG_BOUNTY_TOOLS/medusa && git pull && ./configure && make && sudo make install"
+else
+    _run "medusa (re-clone)" "rm -rf ~/BUG_BOUNTY_TOOLS/medusa && git clone https://github.com/jmk-foofus/medusa.git ~/BUG_BOUNTY_TOOLS/medusa && cd ~/BUG_BOUNTY_TOOLS/medusa && ./configure && make && sudo make install"
+fi
+cd ~/BUG_BOUNTY_TOOLS
 
 # urldedupe — rebuild from source
 if is_installed urldedupe; then
