@@ -213,11 +213,38 @@ _run "sync go→/usr/local/bin" "sudo cp ~/go/bin/* /usr/local/bin/ 2>/dev/null 
 # ─────────────────────────────────────────────────────────────────────────────
 _hdr "PYTHON TOOLS  (git pull + reinstall)"
 
+_link_pip() {
+    local name="$1"
+    local u_home
+    u_home=$(eval echo ~${SUDO_USER:-$USER})
+    
+    # Try finding it first
+    for d in "$HOME/.local/bin" "/root/.local/bin" "/usr/local/bin" "/usr/bin" "$u_home/.local/bin"; do
+        if [ -x "$d/$name" ] || [ -f "$d/$name" ]; then
+            sudo ln -sf "$d/$name" "/usr/local/bin/$name"
+            sudo chmod +x "/usr/local/bin/$name" 2>/dev/null || true
+            return
+        fi
+    done
+    
+    # If not found, force pip to recreate the executable
+    pip3 install -U --force-reinstall --no-deps "$name" --break-system-packages >/dev/null 2>&1 || true
+    
+    # Try finding it again
+    for d in "$HOME/.local/bin" "/root/.local/bin" "/usr/local/bin" "/usr/bin" "$u_home/.local/bin"; do
+        if [ -x "$d/$name" ] || [ -f "$d/$name" ]; then
+            sudo ln -sf "$d/$name" "/usr/local/bin/$name"
+            sudo chmod +x "/usr/local/bin/$name" 2>/dev/null || true
+            return
+        fi
+    done
+}
+
 # pip-based tools — pip3 install -U handles it
-is_installed dirsearch  && _run "dirsearch"  "pip3 install -U dirsearch --break-system-packages"  || _skip_not_installed "dirsearch"
+is_installed dirsearch  && _run "dirsearch"  "pip3 install -U dirsearch --break-system-packages && _link_pip dirsearch"  || _skip_not_installed "dirsearch"
 is_installed dirhunt    && _run "dirhunt"    "python3 -m pip install -U dirhunt --break-system-packages --ignore-installed click" || _skip_not_installed "dirhunt"
-is_installed bhedak     && _run "bhedak"     "python3 -m pip install -U bhedak --break-system-packages"  || _skip_not_installed "bhedak"
-is_installed wafw00f    && _run "wafw00f"    "pip3 install -U wafw00f --break-system-packages"            || _skip_not_installed "wafw00f"
+is_installed bhedak     && _run "bhedak"     "python3 -m pip install -U bhedak --break-system-packages && _link_pip bhedak"  || _skip_not_installed "bhedak"
+is_installed wafw00f    && _run "wafw00f"    "pip3 install -U wafw00f --break-system-packages && _link_pip wafw00f"            || _skip_not_installed "wafw00f"
 
 # git-based tools — pull if dir exists, re-clone if not
 _git_update() {
@@ -303,9 +330,9 @@ _hdr "BINARY TOOLS"
 if ! is_installed medusa; then
     _skip_not_installed "medusa"
 elif [ -d "$HOME/BUG_BOUNTY_TOOLS/medusa/.git" ]; then
-    _run "medusa" "cd ~/BUG_BOUNTY_TOOLS/medusa && git pull && ./configure && make && sudo make install"
+    _run "medusa" "cd ~/BUG_BOUNTY_TOOLS/medusa && git pull && autoreconf -fi && ./configure && make && sudo make install"
 else
-    _run "medusa (re-clone)" "rm -rf ~/BUG_BOUNTY_TOOLS/medusa && git clone https://github.com/jmk-foofus/medusa.git ~/BUG_BOUNTY_TOOLS/medusa && cd ~/BUG_BOUNTY_TOOLS/medusa && ./configure && make && sudo make install"
+    _run "medusa (re-clone)" "rm -rf ~/BUG_BOUNTY_TOOLS/medusa && git clone https://github.com/jmk-foofus/medusa.git ~/BUG_BOUNTY_TOOLS/medusa && cd ~/BUG_BOUNTY_TOOLS/medusa && autoreconf -fi && ./configure && make && sudo make install"
 fi
 cd ~/BUG_BOUNTY_TOOLS
 
