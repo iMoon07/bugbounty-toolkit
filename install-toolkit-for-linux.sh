@@ -150,6 +150,7 @@ _run "apt update"   "sudo apt update -y"
 _hdr "DEPENDENCIES"
 is_installed cmake  && _skip "cmake"      || _run "cmake"      "sudo apt install cmake -y"
 dpkg -l libpcap-dev &>/dev/null           && _skip "libpcap-dev" || _run "libpcap-dev" "sudo apt install libpcap-dev -y"
+dpkg -l libssl-dev &>/dev/null            && _skip "medusa-deps" || _run "medusa-deps" "sudo apt install libssh2-1-dev libssl-dev libpq-dev libsvn-dev -y"
 is_installed python3 && _skip "python3"   || _run "python3"    "sudo apt install python3 python3-pip -y"
 
 mkdir -p ~/BUG_BOUNTY_TOOLS
@@ -208,6 +209,7 @@ is_installed dnsx              && _skip "dnsx"              || _run "dnsx"      
 is_installed tlsx              && _skip "tlsx"              || _run "tlsx"              "go install -v github.com/projectdiscovery/tlsx/cmd/tlsx@latest"
 is_installed cdncheck          && _skip "cdncheck"          || _run "cdncheck"          "go install -v github.com/projectdiscovery/cdncheck/cmd/cdncheck@latest"
 is_installed puredns           && _skip "puredns"           || _run "puredns"           "go install -v github.com/d3mondev/puredns/v2@latest"
+is_installed brutespray        && _skip "brutespray"        || _run "brutespray"        "go install -v github.com/x90skysn3k/brutespray@latest"
 _run "sync go→/usr/local/bin" "sudo cp ~/go/bin/* /usr/local/bin/ 2>/dev/null || true"
 
 cd ~/BUG_BOUNTY_TOOLS
@@ -250,7 +252,7 @@ is_installed paramspider && _skip "paramspider" || \
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed waymore && _skip "waymore" || \
-    _run "waymore" "rm -rf waymore && git clone https://github.com/xnl-h4ck3r/waymore.git && cd waymore && pip3 install -r requirements.txt --break-system-packages && echo '#!/usr/bin/env python3' | cat - waymore.py > /tmp/waymore_tmp && sudo cp /tmp/waymore_tmp /usr/local/bin/waymore && sudo chmod +x /usr/local/bin/waymore && rm /tmp/waymore_tmp"
+    _run "waymore" "rm -rf waymore && git clone https://github.com/xnl-h4ck3r/waymore.git && cd waymore && python3 -m pip install . --break-system-packages"
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed cmseek && _skip "cmseek" || \
@@ -262,15 +264,22 @@ is_installed lucek && _skip "lucek" || \
 cd ~/BUG_BOUNTY_TOOLS
 
 # ─────────────────────────────────────────────────────────────────────────────
-_hdr "BINARY / APT TOOLS"
+_hdr "BINARY TOOLS"
 
-is_installed sqlmap    && _skip "sqlmap"    || _run "sqlmap"    "sudo apt install sqlmap -y"
-is_installed commix    && _skip "commix"    || _run "commix"    "sudo apt install commix -y"
-is_installed medusa    && _skip "medusa"    || _run "medusa"    "sudo apt install medusa -y"
-is_installed brutespray && _skip "brutespray" || _run "brutespray" "sudo apt install brutespray -y"
+is_installed sqlmap && _skip "sqlmap" || \
+    _run "sqlmap" "rm -rf sqlmap && git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap && printf '#!/usr/bin/env bash\nexec python3 \"\$HOME/BUG_BOUNTY_TOOLS/sqlmap/sqlmap.py\" \"\$@\"\n' | sudo tee /usr/local/bin/sqlmap > /dev/null && sudo chmod +x /usr/local/bin/sqlmap"
+cd ~/BUG_BOUNTY_TOOLS
+
+is_installed commix && _skip "commix" || \
+    _run "commix" "rm -rf commix && git clone --depth 1 https://github.com/commixproject/commix.git commix && printf '#!/usr/bin/env bash\nexec python3 \"\$HOME/BUG_BOUNTY_TOOLS/commix/commix.py\" \"\$@\"\n' | sudo tee /usr/local/bin/commix > /dev/null && sudo chmod +x /usr/local/bin/commix"
+cd ~/BUG_BOUNTY_TOOLS
+
+is_installed medusa && _skip "medusa" || \
+    _run "medusa" "rm -rf medusa && git clone https://github.com/jmk-foofus/medusa.git medusa && cd medusa && ./configure && make && sudo make install"
+cd ~/BUG_BOUNTY_TOOLS
 
 is_installed ghauri && _skip "ghauri" || \
-    _run "ghauri" "rm -rf ghauri && git clone https://github.com/r0oth3x49/ghauri.git && cd ghauri && pip3 install -r requirements.txt --break-system-packages && echo '#!/usr/bin/env python3' | cat - ghauri.py > /tmp/ghauri_tmp && sudo cp /tmp/ghauri_tmp /usr/local/bin/ghauri && sudo chmod +x /usr/local/bin/ghauri && rm /tmp/ghauri_tmp"
+    _run "ghauri" "rm -rf ghauri && git clone https://github.com/r0oth3x49/ghauri.git && cd ghauri && python3 -m pip install . --break-system-packages"
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed urldedupe && _skip "urldedupe" || \
