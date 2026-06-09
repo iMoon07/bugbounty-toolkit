@@ -149,7 +149,7 @@ _run "apt update"   "sudo apt update -y"
 _hdr "DEPENDENCIES"
 is_installed cmake  && _skip "cmake"      || _run "cmake"      "sudo apt install cmake -y"
 dpkg -l libpcap-dev &>/dev/null           && _skip "libpcap-dev" || _run "libpcap-dev" "sudo apt install libpcap-dev -y"
-dpkg -l libssl-dev &>/dev/null            && _skip "medusa-deps" || _run "medusa-deps" "sudo apt install libssh2-1-dev libssl-dev libpq-dev libsvn-dev -y"
+is_installed autoconf && dpkg -l libssl-dev &>/dev/null && _skip "medusa-deps" || _run "medusa-deps" "sudo apt install automake autoconf libssh2-1-dev libssl-dev libpq-dev libsvn-dev -y"
 is_installed python3 && _skip "python3"   || _run "python3"    "sudo apt install python3 python3-pip -y"
 
 mkdir -p ~/BUG_BOUNTY_TOOLS
@@ -216,11 +216,38 @@ cd ~/BUG_BOUNTY_TOOLS
 # ─────────────────────────────────────────────────────────────────────────────
 _hdr "PYTHON TOOLS"
 
+_link_pip() {
+    local name="$1"
+    local u_home
+    u_home=$(eval echo ~${SUDO_USER:-$USER})
+    
+    # Try finding it first
+    for d in "$HOME/.local/bin" "/root/.local/bin" "/usr/local/bin" "/usr/bin" "$u_home/.local/bin"; do
+        if [ -x "$d/$name" ] || [ -f "$d/$name" ]; then
+            sudo ln -sf "$d/$name" "/usr/local/bin/$name"
+            sudo chmod +x "/usr/local/bin/$name" 2>/dev/null || true
+            return
+        fi
+    done
+    
+    # If not found, force pip to recreate the executable
+    pip3 install -U --force-reinstall --no-deps "$name" --break-system-packages >/dev/null 2>&1 || true
+    
+    # Try finding it again
+    for d in "$HOME/.local/bin" "/root/.local/bin" "/usr/local/bin" "/usr/bin" "$u_home/.local/bin"; do
+        if [ -x "$d/$name" ] || [ -f "$d/$name" ]; then
+            sudo ln -sf "$d/$name" "/usr/local/bin/$name"
+            sudo chmod +x "/usr/local/bin/$name" 2>/dev/null || true
+            return
+        fi
+    done
+}
+
 is_installed crtsh && _skip "crtsh" || \
     _run "crtsh" "rm -rf crtsh.py && git clone https://github.com/YashGoti/crtsh.py.git && cd crtsh.py && mv crtsh.py crtsh && chmod +x crtsh && sudo cp crtsh /usr/local/bin/"
 cd ~/BUG_BOUNTY_TOOLS
 
-is_installed dirsearch && _skip "dirsearch" || _run "dirsearch" "pip3 install -U dirsearch --break-system-packages"
+is_installed dirsearch && _skip "dirsearch" || _run "dirsearch" "pip3 install -U dirsearch --break-system-packages && _link_pip dirsearch"
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed arjun && _skip "arjun" || \
@@ -228,8 +255,8 @@ is_installed arjun && _skip "arjun" || \
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed dirhunt  && _skip "dirhunt"  || _run "dirhunt"  "python3 -m pip install dirhunt --break-system-packages --ignore-installed click"
-is_installed bhedak   && _skip "bhedak"   || _run "bhedak"   "python3 -m pip install bhedak --break-system-packages"
-is_installed wafw00f  && _skip "wafw00f"  || _run "wafw00f"  "pip3 install wafw00f --break-system-packages"
+is_installed bhedak   && _skip "bhedak"   || _run "bhedak"   "python3 -m pip install bhedak --break-system-packages && _link_pip bhedak"
+is_installed wafw00f  && _skip "wafw00f"  || _run "wafw00f"  "pip3 install wafw00f --break-system-packages && _link_pip wafw00f"
 
 is_installed xsstrike && _skip "xsstrike" || \
     _run "xsstrike" "rm -rf XSStrike && git clone https://github.com/s0md3v/XSStrike.git && cd XSStrike && pip3 install -r requirements.txt --break-system-packages && echo '#!/usr/bin/env python3' | cat - xsstrike.py > /tmp/xsstrike_tmp && sudo cp /tmp/xsstrike_tmp /usr/local/bin/xsstrike && sudo chmod +x /usr/local/bin/xsstrike && rm /tmp/xsstrike_tmp"
@@ -243,7 +270,7 @@ is_installed secretfinder && _skip "secretfinder" || \
     _run "secretfinder" "rm -rf SecretFinder && git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip3 install -r requirements.txt --break-system-packages 2>/dev/null || true && echo '#!/usr/bin/env python3' | cat - SecretFinder.py > /tmp/sf_tmp && sudo cp /tmp/sf_tmp /usr/local/bin/secretfinder && sudo chmod +x /usr/local/bin/secretfinder && rm /tmp/sf_tmp"
 cd ~/BUG_BOUNTY_TOOLS
 
-_run "gau.toml config" "wget -q https://raw.githubusercontent.com/lc/gau/refs/heads/master/.gau.toml && mv .gau.toml ~/"
+_run "gau.toml config" "[ -f ~/.gau.toml ] || curl -sL https://raw.githubusercontent.com/lc/gau/master/.gau.toml -o ~/.gau.toml"
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed paramspider && _skip "paramspider" || \
@@ -274,7 +301,7 @@ is_installed commix && _skip "commix" || \
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed medusa && _skip "medusa" || \
-    _run "medusa" "rm -rf medusa && git clone https://github.com/jmk-foofus/medusa.git medusa && cd medusa && ./configure && make && sudo make install"
+    _run "medusa" "rm -rf medusa && git clone https://github.com/jmk-foofus/medusa.git medusa && cd medusa && autoreconf -fi && ./configure && make && sudo make install"
 cd ~/BUG_BOUNTY_TOOLS
 
 is_installed ghauri && _skip "ghauri" || \
