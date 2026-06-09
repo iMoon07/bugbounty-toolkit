@@ -51,7 +51,7 @@ TCOL=44             # column where tool panel starts (clear of art)
 _tp() { printf "\033[${TCOL}G"; echo -e "$1"; }
 
 _tp "${YLW}  ══════════════════════════════════${RST}"
-_tp "${GRN}  ▸ GO — 29 tools${RST}"
+_tp "${GRN}  ▸ GO — 30 tools${RST}"
 _tp "${WHT}  subfinder  assetfinder  shosubgo${RST}"
 _tp "${WHT}  github-subdomains  chaos  ffuf${RST}"
 _tp "${WHT}  gobuster  naabu  gau  waybackurls${RST}"
@@ -59,19 +59,18 @@ _tp "${WHT}  katana  hakrawler  gf  qsreplace${RST}"
 _tp "${WHT}  httpx  httprobe  anew  unfurl${RST}"
 _tp "${WHT}  subzy  freq  kxss  xsschecker${RST}"
 _tp "${WHT}  dalfox  crlfuzz  nomore403  dnsx${RST}"
-_tp "${WHT}  tlsx  cdncheck  puredns${RST}"
-_tp "${MAG}  ▸ PYTHON — 14 tools${RST}"
+_tp "${WHT}  tlsx  cdncheck  puredns  brutespray${RST}"
+_tp "${MAG}  ▸ PYTHON — 16 tools${RST}"
 _tp "${WHT}  crtsh  dirsearch  arjun  dirhunt${RST}"
 _tp "${WHT}  bhedak  xsstrike  shcheck${RST}"
 _tp "${WHT}  secretfinder  paramspider  waymore${RST}"
 _tp "${WHT}  cmseek  lucek  wafw00f  ghauri${RST}"
-_tp "${CYN}  ▸ BINARY/APT — 8 tools${RST}"
-_tp "${WHT}  rustscan  nuclei  urldedupe  brutespray${RST}"
+_tp "${WHT}  sqlmap  commix${RST}"
+_tp "${CYN}  ▸ BINARY TOOLS — 5 tools${RST}"
+_tp "${WHT}  rustscan  nuclei  urldedupe${RST}"
+_tp "${WHT}  medusa  testssl.sh${RST}"
 
-printf '\033[2B'    # advance past the 2 remaining rows of the art block
-echo -e "${WHT}  sqlmap  commix  medusa  testssl.sh${RST}"
-echo -e "${YLW}  ══════════════════════════════════════════════════════════════════${RST}"
-echo ""
+echo -e "${YLW}                                             ══════════════════════════════════${RST}"
 
 # RED BOTTOM BAR
 echo -e "${REDBG}${YLW}$(printf ' %.0s' {1..72})${RST}"
