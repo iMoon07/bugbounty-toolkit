@@ -130,6 +130,7 @@ _check "dnsx"
 _check "tlsx"
 _check "cdncheck"
 _check "puredns"
+_check "brutespray"
 
 # ── PYTHON TOOLS ─────────────────────────────────────────────────
 _hdr "PYTHON TOOLS"
@@ -147,14 +148,13 @@ _check "cmseek"    "cmseek 2>&1 | head -5"
 _check "lucek"
 _check "wafw00f"
 _check "ghauri"
-
-# ── BINARY / APT TOOLS ───────────────────────────────────────────
-_hdr "BINARY / APT TOOLS"
 _check "sqlmap"
 _check "commix"
-_check "medusa"
-_check "brutespray"
+
+# ── BINARY TOOLS ───────────────────────────────────────────
+_hdr "BINARY TOOLS"
 _check "urldedupe"
+_check "medusa"
 _check "rustscan"
 _check "nuclei"
 _check "testssl.sh"
