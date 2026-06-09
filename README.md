@@ -73,7 +73,7 @@
 
 ## 🛠️ Tool List — 51 Tools Total
 
-### ⚡ Go Tools (29)
+### ⚡ Go Tools (30)
 
 > Installed via `go install @latest` → synced to `/usr/local/bin/`
 
@@ -108,10 +108,11 @@
 | [tlsx](https://github.com/projectdiscovery/tlsx) | TLS/SSL information gathering |
 | [cdncheck](https://github.com/projectdiscovery/cdncheck) | Detect CDN-protected IPs |
 | [puredns](https://github.com/d3mondev/puredns) | Reliable DNS brute force |
+| [brutespray](https://github.com/x90skysn3k/brutespray) | Brute force from nmap output |
 
 ---
 
-### 🐍 Python Tools (14)
+### 🐍 Python Tools (16)
 
 > Mix of pip-installed and git-cloned → synced to `/usr/local/bin/`
 
@@ -131,19 +132,18 @@
 | [lucek](https://github.com/rootbakar/LUcek) | git | LFI/URL checker |
 | [wafw00f](https://github.com/EnableSecurity/wafw00f) | pip | WAF fingerprinting |
 | [ghauri](https://github.com/r0oth3x49/ghauri) | git | Advanced SQL injection detection |
+| [sqlmap](https://github.com/sqlmapproject/sqlmap) | git | Automatic SQL injection |
+| [commix](https://github.com/commixproject/commix) | git | Command injection exploitation |
 
 ---
 
-### 🔧 Binary / APT Tools (8)
+### 🔧 Binary Tools (5)
 
-> Installed via apt or pre-compiled binary download
+> Installed via pre-compiled binary download or compiled from source
 
 | Tool | Install Method | Purpose |
 |------|---------------|---------|
-| [sqlmap](https://github.com/sqlmapproject/sqlmap) | apt | Automatic SQL injection |
-| [commix](https://github.com/commixproject/commix) | apt | Command injection exploitation |
-| [medusa](https://github.com/jmk-foofus/medusa) | apt | Parallel brute force |
-| [brutespray](https://github.com/x90skysn3k/brutespray) | apt | Brute force from nmap output |
+| [medusa](https://github.com/jmk-foofus/medusa) | source (make) | Parallel brute force |
 | [urldedupe](https://github.com/ameenmaali/urldedupe) | source (cmake) | URL deduplication |
 | [rustscan](https://github.com/RustScan/RustScan) | binary | Modern fast port scanner |
 | [nuclei](https://github.com/projectdiscovery/nuclei) | binary | Template-based vulnerability scanner |
@@ -258,7 +258,7 @@ Output example:
 [──────────] ⊘ not installed   rustscan
 
 ══════════════════════════════════
-✓ OK           : 49 tools
+✓ OK           : 48 tools
 ✗ BROKEN       : 1 tools  — cmseek
 ⊘ NOT INSTALLED: 1 tools  — rustscan
 ══════════════════════════════════
