@@ -24,22 +24,17 @@ if [[ "$OSTYPE" != "linux-gnu"* ]]; then
     exit 1
 fi
 
+# Memperbarui daftar paket
+print_message "Memperbarui daftar paket untuk Linux..."
+sudo apt update -y
+
 # Deleting command using apt
 print_message "Remove cmake, libpcap-dev..."
 sudo apt remove cmake -y
 sudo apt remove -y libpcap-dev
 sudo apt remove ffuf -y
-sudo apt remove golang* -y
-sudo python3.11 -m pip uninstall dirsearch --break-system-packages -y
-sudo python3.11 -m pip uninstall bhedak --break-system-packages -y
-cd /usr/local/bin
-sudo rm -f subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace httpx httprobe anew unfurl nuclei subzy freq kxss xsschecker dirsearch arjun dirhunt urldedupe lucek rustscan crtsh 
-sudo apt autoremove -y
+sudo rm -rf /usr/local/go
 cd ~/
-
-# Memperbarui daftar paket
-print_message "Memperbarui daftar paket untuk Linux..."
-sudo apt update -y
 
 # Menginstal CMake dan libpcap
 if ! is_installed cmake; then
@@ -59,8 +54,8 @@ fi
 # Menginstal Python 3.11
 if ! is_installed "python$python_version"; then
     print_message "Menginstal Python $python_version..."
-    sudo apt install python3.11 -y
-    python3.11 -m pip install --upgrade pip
+    sudo apt install python3.13 -y
+    python3.13 -m pip install --upgrade pip --break-system-packages
 else
     print_message "Python $python_version sudah terinstal."
 fi
@@ -73,8 +68,7 @@ cd ~/BUG_BOUNTY_TOOLS
 # Installing Golang
 if ! is_installed go; then
     print_message "Installing Golang..."
-    sudo apt install golang-1.23 golang-go -y
-    go clean -cache -modcache
+    sudo apt install golang-go -y
 else
     print_message "Golang is already installed."
 fi
@@ -99,7 +93,6 @@ go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install -v github.com/tomnomnom/httprobe@latest
 go install -v github.com/tomnomnom/anew@latest
 go install -v github.com/tomnomnom/unfurl@latest
-go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 go install -v github.com/PentestPad/subzy@latest
 go install -v github.com/takshal/freq@latest
 go install -v github.com/Emoe/kxss@latest
@@ -107,6 +100,9 @@ go install -v github.com/rix4uni/xsschecker@latest
 
 # Copying Go tools to /usr/local/bin
 print_message "Copying Go tools to /usr/local/bin..."
+cd /usr/local/bin
+sudo rm -f subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace httpx httprobe anew unfurl subzy freq kxss xsschecker arjun dirhunt urldedupe lucek rustscan crtsh 
+sudo apt autoremove -y
 cd ~/go/bin
 sudo cp * /usr/local/bin/
 
@@ -131,10 +127,7 @@ cd ~/BUG_BOUNTY_TOOLS
 # Installing Dirsearch
 if ! is_installed dirsearch; then
     print_message "Installing Dirsearch..."
-    git clone https://github.com/maurosoria/dirsearch.git
-    cd dirsearch
-    sudo python3.11 -m pip3 install -r requirements.txt
-    sudo python3.11 setup.py install
+    pip3 install -U dirsearch --break-system-packages
 else
     print_message "Dirsearch is already installed."
 fi
@@ -146,22 +139,20 @@ cd ~/BUG_BOUNTY_TOOLS
 print_message "Installing Arjun..."
 git clone https://github.com/s0md3v/Arjun.git
 cd Arjun
-sudo python3.11 -m pip install . --break-system-packages
+sudo python3.13 -m pip install . --break-system-packages
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
 
 # Installing Dirhunt
 print_message "Installing Dirhunt..."
-git clone https://github.com/Nekmo/dirhunt.git
-cd dirhunt
-sudo python3.11 -m pip install . --break-system-packages
+sudo python3.13 -m pip install dirhunt --break-system-packages --ignore-installed click
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
 
 # Installing Bhedak
-sudo python3.11 -m pip install bhedak --break-system-packages
+sudo python3.13 -m pip install bhedak --break-system-packages
 
 # Returning to BUG_BOUNTY_TOOLS directory
 cd ~/BUG_BOUNTY_TOOLS
@@ -179,7 +170,7 @@ if ! is_installed paramspider; then
     print_message "Installing ParamsPider..."
     git clone https://github.com/devanshbatham/paramspider
     cd paramspider
-    sudo python3.11 -m pip install . --break-system-packages
+    sudo python3.13 -m pip install . --break-system-packages
 else
     print_message "ParamsPider is already installed."
 fi
@@ -208,6 +199,7 @@ if ! is_installed LUcek; then
     git clone https://github.com/rootbakar/LUcek.git
     cd LUcek
     bash requirement-mac.sh
+    sudo cp lucek.py /usr/local/bin/lucek
 else
     print_message "LUcek is already installed."
 fi
@@ -226,6 +218,19 @@ if ! is_installed rustscan; then
     sudo rm -f rustscan-2.3.0-x86_64-linux.zip
 else
     print_message "RustScan is already installed."
+fi
+
+# Installing Nuclei
+if ! is_installed nuclei; then
+    mkdir Nuclei
+    cd Nuclei
+    wget https://github.com/projectdiscovery/nuclei/releases/download/v3.4.7/nuclei_3.4.7_linux_amd64.zip
+    unzip nuclei_3.4.7_linux_amd64.zip
+    sudo mv nuclei /usr/local/bin/
+    nuclei -version
+    nuclei
+else
+    print_message "Nuclei is already installed."
 fi
 
 # Returning to BUG_BOUNTY_TOOLS directory
