@@ -99,6 +99,19 @@ _check() {
     PASS=$((PASS + 1))
 }
 
+_check_gf_patterns() {
+    if ls "$HOME/.gf/"*.json >/dev/null 2>&1; then
+        printf "  ${GRN}[██████████████████████████████████████████████████]${RST} ${GRN}✓ ok  ${RST}${DIM}gf-patterns${RST}\n"
+        echo "  ✓ ok             : gf-patterns" >> "$LOG_FILE"
+        PASS=$((PASS + 1))
+    else
+        printf "  ${DRK}[──────────────────────────────────────────────────]${RST} ${DRK}⊘ not configured gf-patterns${RST}\n"
+        echo "  ⊘ NOT CONFIGURED : gf-patterns" >> "$LOG_FILE"
+        FAIL=$((FAIL + 1))
+        FAIL_LIST+=("gf-patterns")
+    fi
+}
+
 # ── GO TOOLS ─────────────────────────────────────────────────────
 _hdr "GO TOOLS"
 _check "subfinder"
@@ -131,6 +144,7 @@ _check "tlsx"
 _check "cdncheck"
 _check "puredns"
 _check "brutespray"
+_check_gf_patterns
 
 # ── PYTHON TOOLS ─────────────────────────────────────────────────
 _hdr "PYTHON TOOLS"
@@ -144,7 +158,7 @@ _check "shcheck"   "shcheck 2>&1 | head -5"
 _check "secretfinder"
 _check "paramspider"
 _check "waymore"
-_check "cmseek"    "cmseek 2>&1 | head -5"
+_check "cmseek"    "cmseek --help 2>&1 | head -5"
 _check "lucek"
 _check "wafw00f"
 _check "ghauri"
