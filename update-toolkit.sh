@@ -50,14 +50,14 @@ _tp "${GRN}  UPDATE strategy per tool type:${RST}"
 _tp "${WHT}  go install @latest   → Go tools${RST}"
 _tp "${WHT}  pip3 install -U      → Python pip${RST}"
 _tp "${WHT}  git pull + reinstall → Git tools${RST}"
-_tp "${WHT}  apt upgrade          → APT tools${RST}"
 _tp "${WHT}  re-download binary   → RustScan / Nuclei${RST}"
+_tp "${WHT}  rebuild from source  → Medusa / URLDedupe${RST}"
 _tp ""
 _tp "${CYN}  All output → update.log${RST}"
 _tp "${DIM}  Skip: tools not installed${RST}"
 _tp "${YLW}  ══════════════════════════════════${RST}"
 
-printf '\033[9B'
+printf '\033[8B'
 echo ""
 echo -e "${REDBG}${DIM}  [↻]  Update mode — existing tools will be overwritten ${RST}"
 echo -e "${REDBG}${YLW}$(printf ' %.0s' {1..72})${RST}"
