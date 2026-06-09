@@ -65,6 +65,7 @@
 | [`update-toolkit.sh`](#-updating) | Smart updater — updates only installed tools |
 | [`gf-install-updated.sh`](#-gf-patterns) | GF pattern installer — 16 curated pattern repos |
 | [`check-toolkit.sh`](#-health-check) | Health checker — verifies all tools are working |
+| [`uninstall-toolkit.sh`](#-uninstallation) | Uninstaller — safely removes all tools and binaries |
 
 > ⚠️ **Kali Linux only.** Tested on Kali Rolling. Other distros (Ubuntu, Debian, Parrot) are not officially supported — APT packages and Python flags may differ.
 
@@ -269,6 +270,25 @@ Output example:
 
 ---
 
+## 🗑️ Uninstallation
+
+If you want to completely remove the toolkit and its tools, run the smart uninstaller:
+
+```bash
+cd ~/bugbounty-toolkit
+sudo bash uninstall-toolkit.sh
+```
+
+> 📄 **Log file:** `uninstall.log` (in same directory as script)
+
+**What the uninstaller does:**
+- Automatically clears any stuck `apt` or `dpkg` locks
+- Removes the `~/BUG_BOUNTY_TOOLS/` and `~/.gf/` directories
+- **Smart Tracking:** Dynamically reads the tool list from `check-toolkit.sh` and tracks down their exact binary locations across your entire system (`$PATH`) to ensure 100% complete removal
+- Leaves base dependencies (`go`, `python3`, `cmake`) intact so you can easily reinstall later
+
+---
+
 ## 📂 Directory Structure
 
 ```
@@ -331,6 +351,9 @@ grep "FAILED" ~/bugbounty-toolkit/install.log
 # Check what failed during update
 grep "FAILED" ~/bugbounty-toolkit/update.log
 
+# Check errors during uninstallation
+cat ~/bugbounty-toolkit/uninstall.log
+
 # View full health check history
 cat ~/bugbounty-toolkit/check.log
 
@@ -355,6 +378,15 @@ These local labs are the best places to safely test this toolkit:
 | **Juice Shop** | Node.js | [github.com/juice-shop/juice-shop](https://github.com/juice-shop/juice-shop) | Modern UI (Angular) — feels exactly like a real-world target |
 
 > 💡 **Why start here?** Mastering these labs ensures you know *why* a vulnerability exists, *how* to exploit it manually, and *how* to automate the discovery using the 51 tools in this toolkit. Do not rush to live targets until you can confidently compromise these environments.
+
+---
+
+## 💻 Useful One-Liners
+
+Now that you have all the tools, you need to know how to chain them together for maximum impact! 
+For a massive collection of ready-to-use Bug Bounty one-liners (for Recon, XSS, SQLi, SSRF, etc.), check out this awesome repository:
+
+- **[Rootbakar's Simple One-Liner](https://github.com/rootbakar/simple-one-liner)** — Highly recommended reference!
 
 ---
 
