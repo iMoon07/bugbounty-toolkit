@@ -165,8 +165,8 @@ sudo apt install -y git curl wget golang python3 python3-pip cmake libpcap-dev
 ```bash
 git clone https://github.com/iMoon07/bugbounty-toolkit.git
 cd ~/bugbounty-toolkit
-chmod +x install-toolkit-for-linux-fixed.sh
-sudo bash install-toolkit-for-linux-fixed.sh
+chmod +x *.sh
+sudo ./install-toolkit-for-linux-fixed.sh
 ```
 
 > ⏱️ **Estimated time:** 15–30 minutes depending on internet speed  
@@ -184,7 +184,7 @@ sudo bash install-toolkit-for-linux-fixed.sh
 
 ```bash
 cd ~/bugbounty-toolkit
-sudo bash update-toolkit.sh
+sudo ./update-toolkit.sh
 ```
 
 > 📄 **Log file:** `update.log` (in same directory as script)
@@ -195,8 +195,7 @@ sudo bash update-toolkit.sh
 |-----------|---------|
 | Go tools | `go install @latest` → re-compiles to newest version |
 | Python pip tools | `pip3 install -U` → upgrades to latest |
-| Python git tools | `git pull` + `pip install -r requirements.txt` |
-| APT tools | `apt install --only-upgrade` |
+| Python git tools | `git pull` + `pip install -r requirements.txt` (or `pip install .`) |
 | RustScan | Re-download latest binary from GitHub releases |
 | Nuclei | Re-download latest release from GitHub |
 
@@ -214,7 +213,7 @@ sudo bash update-toolkit.sh
 
 ```bash
 cd ~/bugbounty-toolkit
-bash gf-install-updated.sh
+./gf-install-updated.sh
 ```
 
 ### Installed Patterns (16 repos)
@@ -247,7 +246,8 @@ cat urls.txt | gf lfi
 Run after install or update to verify all tools are working:
 
 ```bash
-bash ~/bugbounty-toolkit/check-toolkit.sh
+cd ~/bugbounty-toolkit
+./check-toolkit.sh
 ```
 
 Output example:
@@ -276,7 +276,7 @@ If you want to completely remove the toolkit and its tools, run the smart uninst
 
 ```bash
 cd ~/bugbounty-toolkit
-sudo bash uninstall-toolkit.sh
+sudo ./uninstall-toolkit.sh
 ```
 
 > 📄 **Log file:** `uninstall.log` (in same directory as script)
