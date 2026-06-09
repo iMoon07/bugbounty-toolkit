@@ -115,9 +115,6 @@ else
     printf "  ${DRK}↷ ~/BUG_BOUNTY_TOOLS & ~/.gf already removed${RST}\n"
 fi
 
-# 2. Remove APT tools
-printf "\n  ${DIM}┄┄ REMOVING APT TOOLS ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄${RST}\n"
-    _run "Uninstalling sqlmap, commix, medusa" "sudo killall -9 apt apt-get dpkg 2>/dev/null || true; sudo rm -f /var/lib/dpkg/lock /var/lib/dpkg/lock-frontend; sudo dpkg --configure -a 2>/dev/null; sudo apt remove -y sqlmap commix medusa brutespray && sudo apt autoremove -y"
 
 # 3. Remove Binary tools from /usr/local/bin
 printf "\n  ${DIM}┄┄ REMOVING BINARIES & WRAPPERS ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄${RST}\n"
@@ -135,7 +132,7 @@ printf "\n  ${DIM}┄┄ REMOVING BINARIES & WRAPPERS ┄┄┄┄┄┄┄┄�
 
     # Fallback if check-toolkit.sh is missing or empty
     if [ ${#TOOLS[@]} -eq 0 ]; then
-        TOOLS=(sqlmap commix medusa brutespray subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace anew unfurl httpx httprobe subzy freq kxss xsschecker dalfox crlfuzz nomore403 dnsx tlsx cdncheck puredns crtsh dirsearch arjun dirhunt bhedak xsstrike shcheck secretfinder paramspider waymore cmseek lucek wafw00f ghauri urldedupe rustscan nuclei testssl.sh)
+        TOOLS=(sqlmap commix brutespray subfinder assetfinder shosubgo github-subdomains chaos ffuf gobuster naabu gau waybackurls katana hakrawler gf qsreplace anew unfurl httpx httprobe subzy freq kxss xsschecker dalfox crlfuzz nomore403 dnsx tlsx cdncheck puredns crtsh dirsearch arjun dirhunt bhedak xsstrike shcheck secretfinder paramspider waymore cmseek lucek wafw00f ghauri urldedupe rustscan nuclei testssl.sh)
     fi
 
     _run "Deleting ${#TOOLS[@]} tools from system bins" "
