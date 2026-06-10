@@ -44,7 +44,7 @@
 
 # 🐛 BUG BOUNTY TOOLKIT v1.0
 
-**A fully automated installer, updater, health checker, and GF pattern manager for bug bounty hunting on Kali Linux.**
+**A high-performance, fully automated toolkit for Bug Bounty, VDP, and Penetration Testing. Seamlessly deploy, update, and manage 51 essential hacking tools and 124+ GF patterns on Kali Linux.**
 
 [![Platform](https://img.shields.io/badge/platform-Kali%20Linux-557C94?style=for-the-badge&logo=linux&logoColor=white)](https://www.kali.org/)
 [![Tools](https://img.shields.io/badge/tools-51%20total-brightgreen?style=for-the-badge)](https://github.com/iMoon07/bugbounty-toolkit)
@@ -151,7 +151,7 @@
 
 ---
 
-## 🚀 Installation
+## 🚀 1. Installation (Base Tools)
 
 ### Prerequisites
 
@@ -160,7 +160,7 @@ sudo apt update
 sudo apt install -y git curl wget golang python3 python3-pip cmake libpcap-dev
 ```
 
-### Install All Tools
+### Install Toolkit
 
 ```bash
 git clone https://github.com/iMoon07/bugbounty-toolkit.git
@@ -170,64 +170,41 @@ sudo ./install-toolkit-for-linux-fixed.sh
 ```
 
 > ⏱️ **Estimated time:** 15–30 minutes depending on internet speed  
-> 📄 **Log file:** `install.log` (in same directory as script)
 
-**What the installer does:**
-- Skips tools that are already installed (safe to re-run)
-- Shows animated progress bar for each tool (no log spam)
+> 💡 **Troubleshooting Failed Installs:**  
+> If the summary at the end shows any tools failed to install, **run the installer a second time (`sudo ./install-toolkit-for-linux-fixed.sh`)**. Sometimes network timeouts or dependency locks cause temporary failures. If it still fails, check the log: `cat install.log` to trace the exact error.
+
+**What this does:**
+- Skips already installed tools (safe to re-run multiple times)
 - Clones git repos to `~/BUG_BOUNTY_TOOLS/`
-- Syncs all Go binaries to `/usr/local/bin/`
+- Syncs all Go binaries and Python wrappers to `/usr/local/bin/`
 
 ---
 
-## 🔄 Updating
+## 📂 2. GF Patterns Installation (Required)
 
-```bash
-cd ~/bugbounty-toolkit
-sudo ./update-toolkit.sh
-```
-
-> 📄 **Log file:** `update.log` (in same directory as script)
-
-### Update Strategy Per Tool Type
-
-| Tool Type | Strategy |
-|-----------|---------|
-| Go tools | `go install @latest` → re-compiles to newest version |
-| Python pip tools | `pip3 install -U` → upgrades to latest |
-| Python git tools | `git pull` + `pip install -r requirements.txt` (or `pip install .`) |
-| RustScan | Re-download latest binary from GitHub releases |
-| Nuclei | Re-download latest release from GitHub |
-
-### Smart Skip Logic
-
-- ✓ Tool installed + folder exists → **git pull + update**
-- ✓ Tool installed + folder missing → **auto re-clone + reinstall**  
-- ⊘ Tool not installed → **skip** (won't install new tools)
-
----
-
-## 📂 GF Patterns
-
-[gf](https://github.com/tomnomnom/gf) is a wrapper around grep that makes it easy to grep for common patterns in URLs and responses.
+[gf](https://github.com/tomnomnom/gf) is a wrapper around `grep` for identifying vulnerabilities in URLs. **You must install the patterns before running the health check.**
 
 ```bash
 cd ~/bugbounty-toolkit
 ./gf-install-updated.sh
 ```
 
-### Installed Patterns (16 repos)
+> 📄 **Log file:** `gf-install.log` — Check this log if any pattern repo fails to clone.
 
-| Repo | Patterns included |
-|------|-------------------|
-| [tomnomnom/gf](https://github.com/tomnomnom/gf) | base patterns |
-| [1ndianl33t/Gf-Patterns](https://github.com/1ndianl33t/Gf-Patterns) | sqli, xss, ssrf, redirect, rce, idor, debug_logic, img-traversal, interestingparams, interestingEXT, interestingsubs, s3-buckets |
-| [dwisiswant0/gf-secrets](https://github.com/dwisiswant0/gf-secrets) | secrets |
-| [emadshanab/Gf-Patterns-For-Nuclei](https://github.com/emadshanab/Gf-Patterns-For-Nuclei) | nuclei patterns |
-| [coffinxp/gf-patterns](https://github.com/coffinxp/gf-patterns) | lfi, ssti |
-| [rix4uni/gf-patterns](https://github.com/rix4uni/gf-patterns) | additional patterns |
+### Installed Pattern Sources (16 Repos)
 
-Patterns are installed to `~/.gf/*.json`
+All patterns are aggregated and saved directly into `~/.gf/*.json`.
+
+| Pattern Category | Source Repositories |
+|------------------|---------------------|
+| **Core Collections** | [1ndianl33t/Gf-Patterns](https://github.com/1ndianl33t/Gf-Patterns), [robre/gf-patterns](https://github.com/robre/gf-patterns), [mrofisr/gf-patterns](https://github.com/mrofisr/gf-patterns) |
+| **Specialized Lists** | [NitinYadav00/gf-patterns](https://github.com/NitinYadav00/gf-patterns), [Matir/gf-patterns](https://github.com/Matir/gf-patterns), [bp0lr/myGF_patterns](https://github.com/bp0lr/myGF_patterns) |
+| **Grep Patterns** | [arthur4ires/gfPatterns](https://github.com/arthur4ires/gfPatterns), [r00tkie/grep-pattern](https://github.com/r00tkie/grep-pattern) |
+| **Secrets & Creds** | [dwisiswant0/gf-secrets](https://github.com/dwisiswant0/gf-secrets) |
+| **PHP Dangerous Funcs** | [Jude-Paul/GF-Patterns-For-Dangerous-PHP-Functions](https://github.com/Jude-Paul/GF-Patterns-For-Dangerous-PHP-Functions), [seqrity/Allin1gf](https://github.com/seqrity/Allin1gf) |
+| **Extended Patterns** | [scumdestroy/YouthCrew-GF-Patterns](https://github.com/scumdestroy/YouthCrew-GF-Patterns), [cypher3107/GF-Patterns](https://github.com/cypher3107/GF-Patterns), [R0X4R/Garud](https://github.com/R0X4R/Garud) |
+| **New 2025/2026** | [coffinxp/GFpattren](https://github.com/coffinxp/GFpattren), [rix4uni/gf-patterns](https://github.com/rix4uni/gf-patterns) |
 
 ### Basic Usage
 
@@ -236,50 +213,56 @@ Patterns are installed to `~/.gf/*.json`
 cat urls.txt | gf xss
 cat urls.txt | gf sqli
 cat urls.txt | gf ssrf
-cat urls.txt | gf lfi
+cat urls.txt | gf secrets
 ```
 
 ---
 
-## 🩺 Health Check
+## 🩺 3. Health Check
 
-Run after install or update to verify all tools are working:
+Run the health check to verify all 51 tools AND the GF patterns are perfectly configured.
 
 ```bash
 cd ~/bugbounty-toolkit
 ./check-toolkit.sh
 ```
 
-Output example:
-```
-[██████████] ✓ ok   subfinder
-[██████████] ✓ ok   dalfox
-[██████████] ✗ broken (import error)   cmseek
-[──────────] ⊘ not installed   rustscan
+> 📄 **Log file:** `check.log` — Trace this log to see exactly what tool is missing from your `$PATH`.
 
-══════════════════════════════════
-✓ OK           : 48 tools
-✗ BROKEN       : 1 tools  — cmseek
-⊘ NOT INSTALLED: 1 tools  — rustscan
-══════════════════════════════════
-```
-
-- **✓ ok** — binary found and no import errors
-- **✗ broken** — binary exists but crashes on load (e.g. Python module error)
-- **⊘ not installed** — binary not found in PATH
+**Output Statuses:**
+- **✓ ok** — Binary found and fully functional.
+- **⊘ not installed** — Tool is missing or your terminal `$PATH` is broken. Try running the installer again or open a new terminal.
 
 ---
 
-## 🗑️ Uninstallation
+## 🔄 4. Updating
 
-If you want to completely remove the toolkit and its tools, run the smart uninstaller:
+Smart update strategy that only touches installed tools.
+
+```bash
+cd ~/bugbounty-toolkit
+sudo ./update-toolkit.sh
+```
+
+> 📄 **Log file:** `update.log` — Check this if an update crashes (e.g. Go version mismatch).
+
+**Update Strategy:**
+- **Go tools:** `go install @latest`
+- **Python tools:** `pip3 install -U` or `git pull`
+- **Binaries:** Re-download latest GitHub releases
+
+---
+
+## 🗑️ 5. Uninstallation (Optional)
+
+If you want to completely remove the toolkit and its tools, run the smart uninstaller.
 
 ```bash
 cd ~/bugbounty-toolkit
 sudo ./uninstall-toolkit.sh
 ```
 
-> 📄 **Log file:** `uninstall.log` (in same directory as script)
+> 📄 **Log file:** `uninstall.log` — Contains the exact paths of all deleted binaries.
 
 **What the uninstaller does:**
 - Automatically clears any stuck `apt` or `dpkg` locks
@@ -291,48 +274,60 @@ sudo ./uninstall-toolkit.sh
 
 ## 📂 Directory Structure
 
-```
+```text
 ~/bugbounty-toolkit/               ← scripts live here (clone this repo)
 ├── install-toolkit-for-linux-fixed.sh ← install tools
 ├── update-toolkit.sh              ← update tools
 ├── gf-install-updated.sh          ← install gf patterns
 ├── check-toolkit.sh               ← check health of tools
+├── uninstall-toolkit.sh           ← smart uninstaller
 ├── install.log                    ← install log (auto-created)
 ├── update.log                     ← update log (auto-created)
+├── check.log                      ← health check log (auto-created)
+├── gf-install.log                 ← gf installation log (auto-created)
 └── README.md                      ← Guide
 
-~/BUG_BOUNTY_TOOLS/                ← git-based Python/C tools cloned here
-├── Arjun/                         ← HTTP parameter discovery
-├── CMSeeK/                        ← CMS detection
-├── crtsh.py/                      ← certificate transparency
-├── ghauri/                        ← SQL injection
-├── LUcek/                         ← LFI/URL checker
-├── Nuclei/                        ← vulnerability scanner binary
-├── paramspider/                   ← parameter mining
-├── SecretFinder/                  ← JS secrets finder
-├── shcheck/                       ← HTTP security headers
-├── testssl.sh/                    ← SSL/TLS testing
-├── urldedupe/                     ← URL deduplication
-├── waymore/                       ← URL discovery
-├── wafw00f/                       ← WAF fingerprinting
-└── XSStrike/                      ← XSS detection suite
+~/BUG_BOUNTY_TOOLS/                ← source code & repos cloned here
+├── Arjun/                         ← HTTP parameter discovery (pip installed)
+├── CMSeeK/                        ← CMS detection (bash wrapper created)
+├── commix/                        ← Command injection (bash wrapper created)
+├── crtsh.py/                      ← certificate transparency (copied to bin)
+├── ghauri/                        ← SQL injection (pip installed)
+├── LUcek/                         ← LFI/URL checker (copied to bin)
+├── medusa/                        ← Parallel brute force (compiled via make)
+├── Nuclei/                        ← Vulnerability scanner (binary extracted)
+├── paramspider/                   ← parameter mining (pip installed)
+├── SecretFinder/                  ← JS secrets finder (copied to bin)
+├── shcheck/                       ← HTTP security headers (bash wrapper created)
+├── sqlmap/                        ← Automatic SQL injection (bash wrapper created)
+├── testssl.sh/                    ← SSL/TLS testing (copied to bin)
+├── urldedupe/                     ← URL deduplication (compiled via cmake)
+├── waymore/                       ← URL discovery (pip installed)
+└── XSStrike/                      ← XSS detection suite (copied to bin)
 
-/usr/local/bin/                   ← ALL binaries/wrappers → run from anywhere
-├── subfinder, assetfinder, shosubgo, github-subdomains, chaos
-├── ffuf, gobuster, naabu, gau, waybackurls, katana, hakrawler
-├── gf, qsreplace, anew, unfurl, httpx, httprobe
-├── subzy, freq, kxss, xsschecker, dalfox, crlfuzz, nomore403
-├── dnsx, tlsx, cdncheck, puredns
-├── dirsearch, arjun, dirhunt, bhedak, wafw00f
-├── crtsh, xsstrike, shcheck, secretfinder, paramspider
-├── waymore, cmseek, lucek, ghauri
-├── sqlmap, commix, medusa, brutespray
-└── rustscan, nuclei, testssl.sh, urldedupe
+/usr/local/bin/                   ← ALL 51 binaries/wrappers → run from anywhere
+├── Go Tools     : subfinder, assetfinder, shosubgo, github-subdomains, chaos, ffuf, gobuster, naabu, gau, waybackurls, katana, hakrawler, gf, qsreplace, anew, unfurl, httpx, httprobe, subzy, freq, kxss, xsschecker, dalfox, crlfuzz, nomore403, dnsx, tlsx, cdncheck, puredns, brutespray
+├── Pip Tools    : dirsearch, arjun, dirhunt, bhedak, wafw00f, paramspider, waymore, ghauri
+├── Custom Wraps : crtsh, xsstrike, shcheck, secretfinder, cmseek, lucek, sqlmap, commix
+└── Binaries     : urldedupe, medusa, rustscan, nuclei, testssl.sh
 
 ~/.gf/                            ← GF pattern files (JSON)
 └── xss.json, sqli.json, ssrf.json, lfi.json, ssti.json,
-    rce.json, idor.json, redirect.json, secrets.json, ...
+    rce.json, idor.json, redirect.json, secrets.json, ... (124+ files)
 ```
+
+### 💡 Folders Explained
+
+- **`~/bugbounty-toolkit/`**: This is the "Control Center". It contains the 5 main scripts (`install`, `update`, `check`, `uninstall`, `gf-install`) that manage everything. You only come here when you need to run one of these scripts.
+- **`~/BUG_BOUNTY_TOOLS/`**: This is the "Warehouse". When the installer runs, it clones massive repositories (like SQLMap or CMSeeK) into this folder. You don't need to manually interact with this folder because the binaries/wrappers in `/usr/local/bin/` will automatically call the code stored here.
+- **`~/.gf/`**: The "Pattern Library". Contains all the `.json` signature files used by the `gf` tool to grep for vulnerabilities.
+
+### 💡 Binary Categories in `/usr/local/bin/`
+
+- **Go Tools**: Compiled natively via `go install`. These are single static binaries copied directly for lightning-fast execution.
+- **Pip Tools**: Installed via Python's package manager (`pip`). We forcefully link their executables into `/usr/local/bin/` to bypass Kali's strict environment rules.
+- **Custom Wraps**: This is the magic part. For tools that are just giant folders of Python code (like `sqlmap`, `cmseek`, `commix`), the installer creates a smart bash "wrapper" script in `/usr/local/bin/` that silently points back to the source code in `~/BUG_BOUNTY_TOOLS/`. This means you can type `sqlmap` from anywhere without needing to `cd` into its directory first.
+- **Binaries**: Standard compiled binaries (C/C++/Rust) built via `make` / `cmake` or downloaded directly from GitHub Releases.
 
 
 ---
