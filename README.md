@@ -48,12 +48,10 @@
 
 [![Platform](https://img.shields.io/badge/platform-Kali%20Linux-557C94?style=for-the-badge&logo=linux&logoColor=white)](https://www.kali.org/)
 [![Tools](https://img.shields.io/badge/tools-51%20total-brightgreen?style=for-the-badge)](https://github.com/iMoon07/bugbounty-toolkit)
-[![Scripts](https://img.shields.io/badge/scripts-3-blue?style=for-the-badge)](https://github.com/iMoon07/bugbounty-toolkit)
-[![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge)](LICENSE)
+[![Scripts](https://img.shields.io/badge/scripts-5-blue?style=for-the-badge)](https://github.com/iMoon07/bugbounty-toolkit)
+[![YouTube](https://img.shields.io/badge/YouTube-Tutorial-red?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=F9YOEFQCXTM)
 
 > Developed by [iMoon](https://www.linkedin.com/in/imoon07/) · Inspired by [Rootbakar](https://progress28.com/)
-
-[![Tutorial Install](https://raw.githubusercontent.com/iMoon07/bugbounty-toolkit/main/ezgif-14e0f6762deb2792.gif)](https://www.youtube.com/watch?v=F9YOEFQCXTM)
 
 </div>
 
