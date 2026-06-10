@@ -53,6 +53,8 @@
 
 > Developed by [iMoon](https://www.linkedin.com/in/imoon07/) · Inspired by [Rootbakar](https://progress28.com/)
 
+[![Tutorial Install](https://raw.githubusercontent.com/iMoon07/bugbounty-toolkit/main/ezgif-14e0f6762deb2792.gif)](https://www.youtube.com/watch?v=F9YOEFQCXTM)
+
 </div>
 
 ---
